@@ -15,8 +15,8 @@ let g:vim_bootstrap_editor = "vim"				" nvim or vim
 let g:vim_bootstrap_theme = "molokai"
 let g:vim_bootstrap_frams = ""
 
-
-autocmd VimEnter * PlugInstall
+"" Installs plugins on start
+" autocmd VimEnter * PlugInstall
 
 " Required:
 call plug#begin(expand('~/.vim/plugged'))
@@ -257,6 +257,16 @@ let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
+""" Remoce the ? Help at the top of Nerd Tree
+let NERDTreeMinimalUI=1
+
+"" Searching MD Notes
+command! -nargs=1 Ngrep grep "<args>" -g "*.md" $NOTES_DIR
+nnoremap <leader>nn :Ngrep
+
+"" Opening searched files
+command! Vlist botright vertical copen | vertical resize 50
+nnoremap <leader>vl :Vlist<CR>
 
 " grep.vim
 nnoremap <silent> <leader>f :Rgrep<CR>
@@ -430,7 +440,7 @@ endif
 "" Buffer nav
 noremap <leader>z :bp<CR>
 noremap <leader>q :bp<CR>
-noremap <leader>x :bn<CR>
+noremap <leader>x :bd<CR>
 noremap <leader>w :bn<CR>
 
 "" Close buffer

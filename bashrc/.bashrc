@@ -116,3 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 fortune | cowsay -pn 
+
+# ENV VARIABLES
+NOTES_DIR="~/Documents/vault/"
