@@ -118,4 +118,7 @@ fi
 fortune | cowsay -pn 
 
 # ENV VARIABLES
-NOTES_DIR="~/Documents/vault/"
+export NOTES_DIR="~/Documents/vault/"
+
+# Newnote Alias
+alias note='python3 ~/dotfiles/python-scripts/newnote.py'
