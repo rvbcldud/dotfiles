@@ -1,18 +1,23 @@
 # Import libraries
 import os
+import sys
 import datetime
 
 # Gets the path to the notes folder
 path = os.environ.get('NOTES_DIR')
 
-# 
+# Set a variable that holds the current time data 
 time = datetime.datetime.now()
 
-note_name = os.path.expanduser(path + time.strftime("%Y-%m-%d") + ".md")
+title = sys.argv[1]
+
+note_name = os.path.expanduser(path + time.strftime("%Y-%m-%d") + "-" \
+        + title + ".md")
 
 if os.path.exists(note_name) == False:
     new_note = open(note_name, "x")
-    new_note.write("# Notes for " + time.strftime("%A %B %d") + "\n\n")
+    new_note.write("# Notes regarding " + title.title() +  " on "+ \
+            time.strftime("%A %B %d, %Y") + "\n\n")
     new_note.write("## " + time.strftime("%I:%M%p") + "\n\n")
     new_note.close()
 else:
@@ -23,4 +28,4 @@ else:
 
 # ADD YEAR and exception for duplicate time
 
-os.system(('alacritty -e vim +$ ' + note_name))
+os.system(('vim +$ ' + note_name))

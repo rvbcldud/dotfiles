@@ -32,16 +32,13 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/grep.vim'
-Plug 'vim-scripts/CSApprox'
 Plug 'Raimondi/delimitMate'
-Plug 'majutsushi/tagbar'
-Plug 'dense-analysis/ale'
-Plug 'Yggdroot/indentLine'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
-Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
 Plug 'tomasr/molokai'
 
 Plug 'dracula/vim', { 'name': 'dracula' }
+
+Plug 'tpope/vim-surround'
 
 Plug 'lervag/vimtex'
 let g:tex_flavor='latex'
@@ -62,6 +59,7 @@ let g:ycm_extra_conf_vim_data = [
 let g:ycm_global_ycm_extra_conf = '~/global_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_key_list_previous_completion=['<Up>']
 
 Plug 'vim-syntastic/syntastic'
 Plug 'nvie/vim-flake8'
@@ -77,10 +75,6 @@ if exists('make')
         let g:make = 'make'
 endif
 Plug 'Shougo/vimproc.vim', {'do': g:make}
-
-"" Vim-Session
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
 
 "" Snippets
 Plug 'SirVer/ultisnips'
@@ -118,17 +112,18 @@ filetype plugin indent on
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************"
-"" Encoding
+"
+
+" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 set ttyfast
 
-"" Relative Numbers
-set relativenumber
-
 "" Fix backspace indent
 set backspace=indent,eol,start
+
+"" Relative Numbers
 set relativenumber
 
 "" Tabs. May be overridden by autocmd rules
@@ -140,11 +135,7 @@ set expandtab
 "" Map leader to ,
 let mapleader=','
 
-"" Enable hidden buffers
-set hidden
-
 "" Searching
-set hlsearch
 set incsearch
 set ignorecase
 set smartcase
@@ -157,12 +148,6 @@ else
     set shell=/bin/sh
 endif
 
-" session management
-let g:session_directory = "~/.vim/session"
-let g:session_autoload = "no"
-let g:session_autosave = "no"
-let g:session_command_aliases = 1
-
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
@@ -170,7 +155,6 @@ syntax on
 set ruler
 set number
 set nohlsearch
-
 
 let no_buffers_menu=1
 let g:dracula_colorterm = 0
@@ -182,21 +166,6 @@ set t_Co=256
 set guioptions=egmrti
 set gfn=Monospace\ 10
 
-if has("gui_running")
-  if has("gui_mac") || has("gui_macvim")
-    set guifont=Menlo:h12
-    set transparency=7
-  endif
-else
-  let g:CSApprox_loaded = 1
-
-  " IndentLine
-  let g:indentLine_enabled = 1
-  let g:indentLine_concealcursor = 0
-  let g:indentLine_char = '┆'
-  let g:indentLine_faster = 1
-
-  
   if $COLORTERM == 'gnome-terminal'
     set term=gnome-256color
   else
@@ -205,9 +174,6 @@ else
     endif
   endif
   
-endif
-
-
 if &term =~ '256color'
   set t_ut=
 endif
@@ -215,14 +181,6 @@ endif
 
 "" Status bar
 set laststatus=2
-
-"" Use modeline overrides
-set modeline
-set modelines=10
-
-set title
-set titleold="Terminal"
-set titlestring=%F
 
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
@@ -238,9 +196,7 @@ endif
 " vim-airline
 let g:airline_theme = 'dracula'
 let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
 
 "*****************************************************************************
@@ -269,7 +225,8 @@ let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
-""" Remoce the ? Help at the top of Nerd Tree
+
+""" Remove the ? Help at the top of Nerd Tree
 let NERDTreeMinimalUI=1
 
 "" Searching MD Notes
@@ -289,13 +246,6 @@ let Grep_Skip_Dirs = '.git node_modules'
 " terminal emulation
 nnoremap <silent> <leader>sh :terminal<CR>
 
-
-"*****************************************************************************
-"" Commands
-"*****************************************************************************
-" remove trailing whitespaces
-command! FixWhitespace :%s/\s\+$//e
-
 "*****************************************************************************
 "" Functions
 "*****************************************************************************
@@ -310,22 +260,11 @@ endif
 "*****************************************************************************
 "" Autocmd Rules
 "*****************************************************************************
-"" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
-augroup vimrc-sync-fromstart
-  autocmd!
-  autocmd BufEnter * :syntax sync maxlines=200
-augroup END
 
 "" Remember cursor position
 augroup vimrc-remember-cursor-position
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-augroup END
-
-"" txt
-augroup vimrc-wrapping
-  autocmd!
-  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
 augroup END
 
 "" make/cmake
@@ -334,10 +273,6 @@ augroup vimrc-make-cmake
   autocmd FileType make setlocal noexpandtab
   autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
 augroup END
-
-"Change cursor when going into INSERT mode
-autocmd InsertEnter * set cul
-autocmd InsertLeave * set nocul
 
 set autoread
 
@@ -358,38 +293,22 @@ noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gd :Gvdiff<CR>
 noremap <Leader>gr :Gremove<CR>
 
-" session management
-nnoremap <leader>so :OpenSession<Space>
-nnoremap <leader>ss :SaveSession<Space>
-nnoremap <leader>sd :DeleteSession<CR>
-nnoremap <leader>sc :CloseSession<CR>
-
-"" Tabs
-nnoremap  <Tab> gt
-nnoremap <S-Tab> gT
-nnoremap <silent> <S-t> :tabnew<CR>
-
 "" Misc.
-inoremap <S-Tab> <esc>la
+inoremap <S-Tab> <Esc>la
+
+"" Return to normal mode
 inoremap hj <Esc>
 cnoremap hj <C-C>
 vnoremap hj <Esc>
 snoremap hj <Esc>
 xnoremap hj <Esc>
 
+"" Rebind A
 nnoremap <leader>a A
 inoremap <leader>a <esc>A
 
+"" Rebind save
 nnoremap <leader>we :w<CR>
-
-"" Set working directory
-nnoremap <leader>. :lcd %:p:h<CR>
-
-"" Opens an edit command with the path of the currently edited file filled in
-noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
-"" Opens a tab edit command with the path of the currently edited file filled
-noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 "" fzf.vim
 set wildmode=list:longest,list:full
@@ -416,38 +335,10 @@ nnoremap <silent> <leader>e :FZF -m<CR>
 nmap <leader>y :History:<CR>
 
 " snippets
-let g:UltiSnipsExpandTrigger="<leader>s"
-let g:UltiSnipsJumpForwardTrigger="<leader>s"
+let g:UltiSnipsExpandTrigger="<leader>l"
+let g:UltiSnipsJumpForwardTrigger="<leader>l"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
-
-" ale
-let g:ale_linters = {}
-
-" Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
-
-" Disable visualbell
-set noerrorbells visualbell t_vb=
-if has('autocmd')
-  autocmd GUIEnter * set visualbell t_vb=
-endif
-
-"" Copy/Paste/Cut
-if has('unnamedplus')
-  set clipboard=unnamed,unnamedplus
-endif
-
-noremap YY "+y<CR>
-noremap <leader>p "+gP<CR>
-noremap XX "+x<CR>
-
-if has('macunix')
-  " pbcopy for OSX copy/paste
-  vmap <C-x> :!pbcopy<CR>
-  vmap <C-c> :w !pbcopy<CR><CR>
-endif
 
 "" Buffer nav
 noremap <leader>z :bp<CR>
@@ -512,10 +403,6 @@ let g:jedi#show_call_signatures = "0"
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#smart_auto_mappings = 0
 
-" ale
-:call extend(g:ale_linters, {
-    \'python': ['flake8'], })
-
 " vim-airline
 let g:airline#extensions#virtualenv#enabled = 1
 
@@ -572,6 +459,3 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-" LaTeX Live preview (for vim-livepreview plugin)
-"let g:livepreview_previewer = "zathura"
-"autocmd Filetype tex setl updatetime=1
