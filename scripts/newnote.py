@@ -16,7 +16,7 @@ note_name = os.path.expanduser(path + time.strftime("%Y-%m-%d") + "-" \
 
 if os.path.exists(note_name) == False:
     new_note = open(note_name, "x")
-    new_note.write("# Notes regarding " + title.title() +  " on "+ \
+    new_note.write("# Notes regarding " + title.replace('-', " ").title() +  " on "+ \
             time.strftime("%A %B %d, %Y") + "\n\n")
     new_note.write("## " + time.strftime("%I:%M%p") + "\n\n")
     new_note.close()
