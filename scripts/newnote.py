@@ -26,6 +26,4 @@ else:
     new_note.close()
     print('Already created...opening file with new time')
 
-# ADD YEAR and exception for duplicate time
-
 os.system(('vim +$ ' + note_name))
