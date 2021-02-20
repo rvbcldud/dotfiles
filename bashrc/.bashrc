@@ -122,3 +122,15 @@ export NOTES_DIR=$HOME"/Documents/vault/"
 
 # Newnote Alias
 alias note='python3 ~/dotfiles/scripts/newnote.py'
+
+# Edit vimrc alias
+alias vimrc='vim ~/dotfiles/vimrc/.vimrc'
+
+# CD to NOTES_DIR
+alias notes='cd $NOTES_DIR'
+
+# CD to dotfiles
+alias dot='cd ~/dotfiles/'
+
+# Search notes from terminal
+alias snote='python3 ~/dotfiles/scripts/searchnotes.py'

@@ -80,6 +80,17 @@ Plug 'Shougo/vimproc.vim', {'do': g:make}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+"" Markdown and Line-up help
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
+let g:vim_markdown_folding_disabled = 1
+
+"" VimWiki
+Plug 'vimwiki/vimwiki'
+let g:vimwiki_list = [{'path': '~/Documents/vault/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+
 "*****************************************************************************
 "" Custom bundles
 "*****************************************************************************
@@ -107,6 +118,7 @@ call plug#end()
 
 " Required:
 filetype plugin indent on
+filetype plugin on
 
 
 "*****************************************************************************
@@ -152,6 +164,7 @@ endif
 "" Visual Settings
 "*****************************************************************************
 syntax on
+set nocompatible
 set ruler
 set number
 set nohlsearch
@@ -245,6 +258,9 @@ let Grep_Skip_Dirs = '.git node_modules'
 
 " terminal emulation
 nnoremap <silent> <leader>sh :terminal<CR>
+
+" Search with VimWiki
+nnoremap <leader>swt :VimwikiSearchTags 
 
 "*****************************************************************************
 "" Functions
@@ -344,7 +360,7 @@ let g:UltiSnipsEditSplit="vertical"
 noremap <leader>z :bp<CR>
 noremap <leader>q :bp<CR>
 noremap <leader>x :bd<CR>
-noremap <leader>w :bn<CR>
+noremap <leader>nw :bn<CR>
 
 "" Close buffer
 noremap <leader>c :bd<CR>
