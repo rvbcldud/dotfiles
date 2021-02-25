@@ -128,9 +128,13 @@ alias vimrc='vim ~/dotfiles/vimrc/.vimrc'
 
 # CD to NOTES_DIR
 alias notes='cd $NOTES_DIR'
+## CD to NOTES_DIR and enter vim
+alias notev='vim $NOTES_DIR'
 
 # CD to dotfiles
 alias dot='cd ~/dotfiles/'
 
 # Search notes from terminal
 alias snote='python3 ~/dotfiles/scripts/searchnotes.py'
+
+

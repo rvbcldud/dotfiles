@@ -91,6 +91,25 @@ Plug 'vimwiki/vimwiki'
 let g:vimwiki_list = [{'path': '~/Documents/vault/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
+"" Markdown Preview 
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+let g:mkdp_auto_start = 1
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1,
+    \ 'sequence_diagrams': {},
+    \ 'flowchart_diagrams': {},
+    \ 'content_editable': v:false,
+    \ 'disable_filename': 0
+    \ }
+let g:mkdp_markdown_css = '/home/rvbcldud/Documents/theme/dark.css'
+
+
 "*****************************************************************************
 "" Custom bundles
 "*****************************************************************************
@@ -125,6 +144,10 @@ filetype plugin on
 "" Basic Setup
 "*****************************************************************************"
 "
+set history=1000
+set undolevels=1000
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
 " Encoding
 set encoding=utf-8
@@ -160,6 +183,7 @@ else
     set shell=/bin/sh
 endif
 
+
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
@@ -168,6 +192,13 @@ set nocompatible
 set ruler
 set number
 set nohlsearch
+set cursorcolumn 
+set cursorline
+autocmd ColorScheme * highlight CursorColumn ctermbg=59
+autocmd InsertEnter * highlight CursorColumn ctermbg=103
+autocmd InsertLeave * highlight CursorColumn ctermbg=59
+" set cursorline
+
 
 let no_buffers_menu=1
 let g:dracula_colorterm = 0
@@ -195,9 +226,7 @@ endif
 "" Status bar
 set laststatus=2
 
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
-
-" Search mappings: These will make it so that going to the next one in a
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\ " Search mappings: These will make it so that going to the next one in a
 " search will center on the line it's found in.
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -262,16 +291,6 @@ nnoremap <silent> <leader>sh :terminal<CR>
 " Search with VimWiki
 nnoremap <leader>swt :VimwikiSearchTags 
 
-"*****************************************************************************
-"" Functions
-"*****************************************************************************
-if !exists('*s:setupWrapping')
-  function s:setupWrapping()
-    set wrap
-    set wm=2
-    set textwidth=79
-  endfunction
-endif
 
 "*****************************************************************************
 "" Autocmd Rules
@@ -326,6 +345,10 @@ inoremap <leader>a <esc>A
 "" Rebind save
 nnoremap <leader>we :w<CR>
 
+"" Bind copy and paste to and from clipboard
+vnoremap <leader>yo "+y
+vnoremap <leader>pi "+p
+
 "" fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
@@ -347,6 +370,7 @@ endif
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :FZF -m<CR>
+
 "Recovery commands from history through FZF
 nmap <leader>y :History:<CR>
 
@@ -384,6 +408,13 @@ vnoremap K :m '<-2<CR>gv=gv
 
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
+
+"" Instant Markdown Preview
+nnoremap <leader>mdo :MarkdownPreview<CR>
+nnoremap <leader>mdc :MarkdownPreviewStop<CR>
+
+"" Remap : to ; ... so I don't have to press space
+nnoremap ; :
 
 "*****************************************************************************
 "" Custom configs
