@@ -137,4 +137,7 @@ alias dot='cd ~/dotfiles/'
 # Search notes from terminal
 alias snote='python3 ~/dotfiles/scripts/searchnotes.py'
 
+# Seach note titles
+alias snotet='python3 ~/dotfiles/scripts/opennote.py'
+
 

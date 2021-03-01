@@ -30,13 +30,20 @@ for files in os.listdir(path):
 
 # Print out list of results
 i = 1
+if len(output_list) > 12:
+    print('This string is not specific enough!!')
+    quit()
+elif len(output_list) == 0:
+    print('This search term found nothing')
+    quit()
 for (md, output, line) in zip(output_list, output_lines, output_line_numbers):
-    print("----------file: " + str(i) + " @ " + "line " + str(line) + "-------")
+    print("----------option: " + str(i) + " @ " + "line " + str(line) + "-------")
     print ("     " + output + md)
     print("----------------------------------")
     i += 1
 
 # Ask for user to input the file/note they were looking for
+print(len(output_list))
 user = int(input("\nInput the value of the desired file: ")) - 1
 
 # Open chosen file in vim

@@ -93,7 +93,7 @@ let g:vimwiki_list = [{'path': '~/Documents/vault/',
 
 "" Markdown Preview 
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-let g:mkdp_auto_start = 1
+let g:mkdp_auto_start = 0
 let g:mkdp_preview_options = {
     \ 'mkit': {},
     \ 'katex': {},
@@ -108,7 +108,6 @@ let g:mkdp_preview_options = {
     \ 'disable_filename': 0
     \ }
 let g:mkdp_markdown_css = '/home/rvbcldud/Documents/theme/dark.css'
-
 
 "*****************************************************************************
 "" Custom bundles
@@ -291,6 +290,10 @@ nnoremap <silent> <leader>sh :terminal<CR>
 " Search with VimWiki
 nnoremap <leader>swt :VimwikiSearchTags 
 
+" Spell check ON/OFF
+nnoremap <leader>spy :set spell<CR>
+nnoremap <leader>spn :set nospell<CR>
+
 
 "*****************************************************************************
 "" Autocmd Rules
@@ -347,29 +350,11 @@ nnoremap <leader>we :w<CR>
 
 "" Bind copy and paste to and from clipboard
 vnoremap <leader>yo "+y
-vnoremap <leader>pi "+p
+nnoremap <leader>pi "+p
 
-"" fzf.vim
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
-
-" The Silver Searcher
-if executable('ag')
-  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
-
-" ripgrep
-if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  set grepprg=rg\ --vimgrep
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-endif
-
-cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+" FZF Keybindings
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>e :FZF -m<CR>
+nnoremap <silent> <leader>f :Files<CR>
 
 "Recovery commands from history through FZF
 nmap <leader>y :History:<CR>
@@ -408,6 +393,7 @@ vnoremap K :m '<-2<CR>gv=gv
 
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
+
 
 "" Instant Markdown Preview
 nnoremap <leader>mdo :MarkdownPreview<CR>
