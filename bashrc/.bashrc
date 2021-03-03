@@ -129,7 +129,7 @@ alias vimrc='vim ~/dotfiles/vimrc/.vimrc'
 # CD to NOTES_DIR
 alias notes='cd $NOTES_DIR'
 ## CD to NOTES_DIR and enter vim
-alias notev='vim $NOTES_DIR'
+alias notev='notes; vim -c "Files"'
 
 # CD to dotfiles
 alias dot='cd ~/dotfiles/'

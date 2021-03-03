@@ -270,20 +270,6 @@ nnoremap <silent> <F3> :NERDTreeToggle<CR>
 """ Remove the ? Help at the top of Nerd Tree
 let NERDTreeMinimalUI=1
 
-"" Searching MD Notes
-command! -nargs=1 Ngrep grep "<args>" -g "*.md" $NOTES_DIR
-nnoremap <leader>nn :Ngrep
-
-"" Opening searched files
-command! Vlist botright vertical copen | vertical resize 50
-nnoremap <leader>vl :Vlist<CR>
-
-" grep.vim
-nnoremap <silent> <leader>f :Rgrep<CR>
-let Grep_Default_Options = '-IR'
-let Grep_Skip_Files = '*.log *.db'
-let Grep_Skip_Dirs = '.git node_modules'
-
 " terminal emulation
 nnoremap <silent> <leader>sh :terminal<CR>
 
@@ -388,11 +374,20 @@ vmap < <gv
 vmap > >gv
 
 "" Move visual block
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+function! MoveDown(amount)
+    execute "'<,'>m '>+" . a:amount
+endfunction
+
+function! MoveUp(amount)
+    execute "'<,'>m '<-" . (a:amount+1)
+endfunction
+
+vnoremap J :<C-w>call MoveDown(v:count1)<CR>gv=gv
+vnoremap K :<C-w>call MoveUp(v:count1)<CR>gv=gv
+
 
 "" Open current line on GitHub
-nnoremap <Leader>o :.Gbrowse<CR>
+noremap <Leader>o :.Gbrowse<CR>
 
 
 "" Instant Markdown Preview
