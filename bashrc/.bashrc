@@ -123,6 +123,9 @@ export NOTES_DIR=$HOME"/Documents/vault/"
 # Newnote Alias
 alias note='python3 ~/dotfiles/scripts/newnote.py'
 
+# New fleeting note alias
+alias fnote='python3 ~/dotfiles/scripts/quicknote.py'
+
 # Edit vimrc alias
 alias vimrc='vim ~/dotfiles/vimrc/.vimrc'
 
@@ -140,4 +143,5 @@ alias snote='python3 ~/dotfiles/scripts/searchnotes.py'
 # Seach note titles
 alias snotet='python3 ~/dotfiles/scripts/opennote.py'
 
-
+# TO-DO List alias
+alias todo='vim $NOTES_DIR/todo.md'
